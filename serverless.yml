@@ -1,21 +1,30 @@
 service: serverless-lambda-chrome
-frameworkVersion: "1.60.5"
 
 provider:
   name: aws
   versionFunctions: false
   runtime: nodejs12.x
-  region: ap-southeast-2
+  region: us-east-1
   stage: dev
-  profile: hotpuma
   environment:
     IS_OFFLINE: ${opt:offline}
   apiGateway:
     binaryMediaTypes:
       - "application/pdf"
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:GetObject"
+        - "s3:PutObject"
+      Resource:
+        Fn::Join:
+          - ""
+          - - "arn:aws:s3:::"
+            - Ref: "AppHtmlPdf"
+            - "/*"
+
 plugins:
   - serverless-webpack
-  - serverless-domain-manager
   - serverless-offline
 
 layers:
@@ -26,6 +35,7 @@ layers:
     description: Required for headless chrome
     package:
       artifact: layers/chrome_aws_lambda.zip
+
 custom:
   webpack:
     webpackConfig: webpack.config.js
@@ -37,12 +47,6 @@ custom:
   serverless-offline:
     location: .webpack/service
 
-  customDomain:
-    domainName: labs.mianio.com
-    basePath: demo
-    stage: ${self:provider.stage}
-    createRoute53Record: true
-
 functions:
   generate-the-pdf:
     provisionedConcurrency: 2
@@ -52,5 +56,18 @@ functions:
     events:
       - http:
           path: puppeteer/pdf
-          method: get
+          method: post
           cors: true
+
+resources:
+  Resources:
+    AppHtmlPdf:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: html-pdf-0506-917
+        AccessControl: PublicRead
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          IgnorePublicAcls: true
+          BlockPublicPolicy: false
+          RestrictPublicBuckets: false

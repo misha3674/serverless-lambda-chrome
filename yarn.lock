@@ -911,6 +911,21 @@ aws-sdk@*, aws-sdk@^2.490.0, aws-sdk@^2.597.0:
     uuid "3.3.2"
     xml2js "0.4.19"
 
+aws-sdk@^2.670.0:
+  version "2.670.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.670.0.tgz#d54d18b9245df7b89bea96102e5bdebd99587701"
+  integrity sha512-hGRnZtp1wDUh6hZRBHO0Ki7thx/xbRlIEiTKlWes+f/0E1Nhm3KpelsBZ3L/Q6y1ragwkQd4Q720AmWEqemLyA==
+  dependencies:
+    buffer "4.9.1"
+    events "1.1.1"
+    ieee754 "1.1.13"
+    jmespath "0.15.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    uuid "3.3.2"
+    xml2js "0.4.19"
+
 balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
